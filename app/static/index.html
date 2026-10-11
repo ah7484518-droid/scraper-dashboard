@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scraper Dashboard</title>
+  <script>
+    // Apply the saved theme before the page paints (prevents a flash)
+    try {
+      const saved = localStorage.getItem("theme");
+      if (saved) document.documentElement.setAttribute("data-theme", saved);
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      <span class="brand-name">Scraper Dashboard</span>
+    </div>
+    <button id="themeToggle" class="btn btn-ghost" type="button">Dark mode</button>
+  </header>
+
+  <main class="container">
+    <section class="card toolbar">
+      <div class="toolbar-left">
+        <button id="scrapeBtn" class="btn btn-primary" type="button">Run scraper</button>
+        <span id="statusText" class="status">Idle</span>
+      </div>
+      <div class="toolbar-right">
+        <a class="btn btn-ghost" href="/api/export/csv">Download CSV</a>
+        <a class="btn btn-ghost" href="/api/export/excel">Download Excel</a>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="card stat">
+        <span class="stat-label">Total books</span>
+        <span id="statTotal" class="stat-value">0</span>
+      </div>
+      <div class="card stat">
+        <span class="stat-label">Average price</span>
+        <span id="statPrice" class="stat-value">£0.00</span>
+      </div>
+      <div class="card stat">
+        <span class="stat-label">Average rating</span>
+        <span id="statRating" class="stat-value">0.0</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="filters">
+        <input id="searchInput" class="input" type="search" placeholder="Search by title..." />
+        <select id="ratingFilter" class="input">
+          <option value="all">All ratings</option>
+          <option value="5">5 stars</option>
+          <option value="4">4 stars</option>
+          <option value="3">3 stars</option>
+          <option value="2">2 stars</option>
+          <option value="1">1 star</option>
+        </select>
+        <span id="resultsInfo" class="muted"></span>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th data-sort="id">#</th>
+              <th data-sort="title">Title</th>
+              <th data-sort="price">Price</th>
+              <th data-sort="rating">Rating</th>
+              <th data-sort="availability">Availability</th>
+              <th data-sort="scraped_at">Scraped at</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <button id="prevBtn" class="btn btn-ghost" type="button">Previous</button>
+        <span id="pageInfo" class="muted"></span>
+        <button id="nextBtn" class="btn btn-ghost" type="button">Next</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
